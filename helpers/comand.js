@@ -1,11 +1,21 @@
-const message = require('./helper');
+
+    const {getPrice} = require('../api/nomics')
+    const {cyrptoCurrenciesList} = require('../api/coingecko')
     
     const contructMessage = async (parts) => {
         if (parts.length !== 2){
             return
         }
        
-        return await message.getPrice(parts[1])
+        return await getPrice(parts[1])
+    }
+
+    const getHistory = async (parts) => {
+        if (parts.length !== 2){
+            return
+        }
+       
+        return await cyrptoCurrenciesList(parts[1])
     }
 
     const getMessage = async(message) =>{
@@ -13,7 +23,8 @@ const message = require('./helper');
         let returnMsg = ''
 
         const messageArray = [
-            { regex: /^-crypto/g, message: await contructMessage(parts) }
+            { regex: /^-crypto/g, message: await contructMessage(parts) },
+            { regex: /^-history/g, message: await getHistory(parts) },
         ];
 
         messageArray.map(msg => {

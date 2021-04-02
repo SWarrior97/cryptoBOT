@@ -2,8 +2,8 @@ require('dotenv').config();
 const Discord = require('discord.js');
 const bot = new Discord.Client();
 const TOKEN = process.env.DISCORD_TOKEN;
-const message = require('./helper');
-const comand = require('./comand');
+const message = require('./helpers/helper');
+const comand = require('./helpers/comand');
 
 bot.login(TOKEN);
 
