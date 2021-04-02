@@ -1,12 +1,12 @@
 
     const {getPrice} = require('../api/nomics')
-    const {cyrptoCurrenciesList} = require('../api/coingecko')
-    
+    const {cyrptoCurrenciesList,getCurrencyHistory} = require('../api/coingecko')
+
     const contructMessage = async (parts) => {
         if (parts.length !== 2){
             return
         }
-       
+        
         return await getPrice(parts[1])
     }
 
@@ -14,11 +14,28 @@
         if (parts.length !== 2){
             return
         }
-       
-        return await cyrptoCurrenciesList(parts[1])
+        
+        const list = await cyrptoCurrenciesList()
+        let id = null
+        list.map( coin => {
+            if(coin.symbol === parts[1].toLowerCase()){
+                id = coin.id
+            }
+        })
+
+        const response = await getCurrencyHistory(id)
+        let msg = ''
+
+        response.map( history => {
+            msg += `Value:${history.value} - Date:${history.day}\n`
+        })
+       return msg
     }
 
-    const getMessage = async(message) =>{
+  
+
+module.exports = {
+    getMessage: async(message) =>{
         const parts = message.split(' ')
         let returnMsg = ''
 
@@ -35,6 +52,4 @@
 
         return returnMsg
     }
-  
-
-exports.getMessage = getMessage;
+}

@@ -2,21 +2,24 @@ require('dotenv').config();
 const Discord = require('discord.js');
 const bot = new Discord.Client();
 const TOKEN = process.env.DISCORD_TOKEN;
-const message = require('./helpers/helper');
-const comand = require('./helpers/comand');
+const {getMessage} = require('./helpers/command')
+const {getUserFromMention} = require('./helpers/helper')
 
 bot.login(TOKEN);
+
+
+const fetchUser = async id => bot.users.fetch(id)
 
 bot.on('ready', () => {
   console.info(`Logged in as ${bot.user.tag}!`);
 });
 
-bot.on('message',async msg => {
-    // msg.reply('pong');
-    const message = await comand.getMessage(msg.content) || null
 
+bot.on('message',async msg => {
+    const message = await getMessage(msg.content) || null
+    // console.log(JSON.stringify(msg.author))
+    // const asd = getUserFromMention(msg.content)
     if(message){
-        const response = message
         msg.channel.send(message);
     }
 });
