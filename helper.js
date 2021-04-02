@@ -1,8 +1,9 @@
 require('dotenv').config()
 const fetch = require('node-fetch');
+const urlPrefix ="https://api.nomics.com/v1"
 
 const getPrice = async (coinSymbol) =>{
-    const url = `${process.env.NOMICS_URL}/prices?key=${process.env.NOMICS_API_KEY}`
+    const url = `${urlPrefixL}/prices?key=${process.env.NOMICS_API_KEY}`
     const response = await fetch(url, { method: 'GET'})
 
     if(response.ok){
